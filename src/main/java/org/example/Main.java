@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.Enums.MissionEventType;
+import org.example.Enums.SupplyType;
 import org.example.Model.Astronaut;
 import org.example.Model.MissionEvent;
 import org.example.Model.Supply;
@@ -45,6 +47,7 @@ public class Main {
             System.out.println("4. Scriere astronauti sortati in fisier (Task 4)");
             System.out.println("5. Computarea punctelor (Task 5)");
             System.out.println("6. Top 5 astronauti dupa scor (Task 6)");
+            System.out.println("7. Scriere in fisier nr de events dupa tip (Task 7)");
             System.out.println("0. Iesire");
             System.out.print("Alege o optiune: ");
 
@@ -115,8 +118,24 @@ public class Main {
                     System.out.println("Leading spacecraft: "+spacecraft);
                     break;
 
+                case 7:
+                    Map<MissionEventType, Long> reportData = service.getEventCountsByType();
+                    StringBuilder reportContent = new StringBuilder();
+                    reportData.entrySet().stream()
+                            .sorted(Map.Entry.<MissionEventType, Long>comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
 
+                            .forEach(entry -> reportContent.append(entry.getKey())
+                                    .append(" -> ")
+                                    .append(entry.getValue())
+                                    .append("\n"));
 
+                    try {
+                        repo.writeReport(reportContent.toString(), "mission_report.txt");
+                        System.out.println("\n Fisierul a fost generat!");
+                    } catch (IOException e) {
+                        System.err.println("\n Nu s-a putut scrie raportul: " + e.getMessage());
+                    }
+                    break;
 
                 case 0:
                     System.out.println("\nIesire.");

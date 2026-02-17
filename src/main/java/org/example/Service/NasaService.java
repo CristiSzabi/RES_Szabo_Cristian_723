@@ -1,6 +1,7 @@
 package org.example.Service;
 
 import org.example.Enums.AstronautStatus;
+import org.example.Enums.MissionEventType;
 import org.example.Model.Astronaut;
 import org.example.Model.MissionEvent;
 import org.example.Model.Supply;
@@ -45,19 +46,14 @@ public class NasaService {
     public Map<Astronaut, Integer> getTop5Astronauts() {
         Map<Integer, Integer> astronautScores = new HashMap<>();
 
-        // Sum computed points from events
         for (MissionEvent e : events) {
             int currentScore = astronautScores.getOrDefault(e.getAstronautId(), 0);
             astronautScores.put(e.getAstronautId(), currentScore + calculateComputedPoints(e));
         }
-
-        // Add values from fines
         for (Supply g : supplies) {
             int currentScore = astronautScores.getOrDefault(g.getAstronautId(), 0);
             astronautScores.put(g.getAstronautId(),currentScore + g.getValue());
         }
-
-        // Sort descending by score, ascending by name
         return astronauts.stream()
                 .collect(Collectors.toMap(t -> t, t -> astronautScores.getOrDefault(t.getId(), 0)))
                 .entrySet().stream()
@@ -73,7 +69,19 @@ public class NasaService {
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (e1, e2) -> e1,
-                        LinkedHashMap::new // Păstrăm ordinea sortării
+                        LinkedHashMap::new
+                ));
+    }
+    public Map<MissionEventType, Long> getEventCountsByType() {
+        return events.stream()
+                .collect(Collectors.groupingBy(MissionEvent::getType, Collectors.counting()))
+                .entrySet().stream()
+                .sorted(Map.Entry.<MissionEventType, Long>comparingByValue().reversed())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
                 ));
     }
 

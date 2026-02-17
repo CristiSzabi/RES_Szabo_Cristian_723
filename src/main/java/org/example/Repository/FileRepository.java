@@ -35,5 +35,11 @@ public class FileRepository {
             }
         }
     }
+    public void writeReport(String content, String filePath) throws IOException {
+        try (FileWriter writer = new FileWriter(filePath)) {
+            writer.write(content);
+        }
+    }
+
 
 }
