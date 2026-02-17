@@ -4,6 +4,7 @@ import org.example.Model.Astronaut;
 import org.example.Model.MissionEvent;
 import org.example.Model.Supply;
 import org.example.Repository.FileRepository;
+import org.example.Service.NasaService;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Main {
         List<Astronaut> astronauts = null;
         List<MissionEvent> events = null;
         List<Supply> supplies = null;
+        NasaService service = null;
 
 
 
@@ -27,6 +29,7 @@ public class Main {
             astronauts = repo.loadAstronauts("astronauts.json");
             events = repo.loadEvents("events.json");
             supplies = repo.loadSupplies("supplies.json");
+            service = new NasaService(astronauts, events, supplies);
         } catch (IOException e) {
             System.err.println("Eroare la citire: " + e.getMessage());
             return;
@@ -37,6 +40,7 @@ public class Main {
         while (running) {
             System.out.println("\n=== MENIU ===");
             System.out.println("1. Afisare date initiale (Task 1)");
+            System.out.println("2. Filtrare astronauti dupa spacecraft active (Task 2)");
             System.out.println("0. Iesire");
             System.out.print("Alege o optiune: ");
 
@@ -51,11 +55,27 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    System.out.println("\nDrivers loaded: " + astronauts.size());
+                    System.out.println("\nAstronauts loaded: " + astronauts.size());
                     System.out.println("Events loaded: " + events.size());
-                    System.out.println("Penalties loaded: " + supplies.size());
+                    System.out.println("Supplies loaded: " + supplies.size());
                     astronauts.forEach(System.out::println);
                     break;
+                case 2:
+                    try {
+                        System.out.print("Input spacecraft: ");
+                        String spacecraft = scanner.nextLine();
+                        List<Astronaut> filtered = service.getAstronautsBySpacecraft(spacecraft);
+                        if (filtered.isEmpty()) {
+                            System.out.println("Nu s-au gasit ");
+                        } else {
+                            filtered.forEach(System.out::println);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Alegere invalida");
+                    }
+                    break;
+
+
 
                 case 0:
                     System.out.println("\nIesire.");
