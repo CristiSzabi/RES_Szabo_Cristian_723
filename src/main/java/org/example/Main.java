@@ -42,7 +42,9 @@ public class Main {
             System.out.println("1. Afisare date initiale (Task 1)");
             System.out.println("2. Filtrare astronauti dupa spacecraft active (Task 2)");
             System.out.println("3. Sortare astronauti dupa experienta si nume (Task 3)");
-            System.out.println("4. Scriere astronauti sortati in fisier");
+            System.out.println("4. Scriere astronauti sortati in fisier (Task 4)");
+            System.out.println("5. Computarea punctelor (Task 5)");
+            System.out.println("6. Top 5 astronauti dupa scor (Task 6)");
             System.out.println("0. Iesire");
             System.out.print("Alege o optiune: ");
 
@@ -87,7 +89,15 @@ public class Main {
                     } catch (IOException e) {
                         System.err.println("\nNu s-a putut scrie fisierul: " + e.getMessage());
                     }
-
+                    break;
+                case 5:
+                    System.out.println("\n--- Event Points ---");
+                    NasaService finalService = service;
+                    service.getEvents().stream().limit(5).forEach(e -> {
+                        int computed = finalService.calculateComputedPoints(e);
+                        System.out.printf("Event %d -> raw=%d -> computed=%d%n",
+                                e.getId(), e.getBasePoints(), computed);
+                    });
                     break;
 
 
