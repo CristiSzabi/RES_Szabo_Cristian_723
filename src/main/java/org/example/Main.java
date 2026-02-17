@@ -99,6 +99,21 @@ public class Main {
                                 e.getId(), e.getBasePoints(), computed);
                     });
                     break;
+                case 6:
+                    System.out.println("\nTop 5 Astronauts:");
+                    Map<Astronaut, Integer> top5 = service.getTop5Astronauts();
+                    int rank = 1;
+                    String spacecraft=null;
+                    int max=0;
+                    for (Map.Entry<Astronaut, Integer> entry : top5.entrySet()) {
+                        System.out.printf("%d. %s (%s) -> %d%n", rank++, entry.getKey().getName(),entry.getKey().getSpacecraft() ,entry.getValue());
+                        if(entry.getValue()>max){
+                            spacecraft=entry.getKey().getSpacecraft();
+                            max=entry.getValue();
+                        }
+                    }
+                    System.out.println("Leading spacecraft: "+spacecraft);
+                    break;
 
 
 

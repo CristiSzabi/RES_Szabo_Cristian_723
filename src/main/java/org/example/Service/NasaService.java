@@ -42,6 +42,40 @@ public class NasaService {
     public List<MissionEvent> getEvents() {
         return events;
     }
+    public Map<Astronaut, Integer> getTop5Astronauts() {
+        Map<Integer, Integer> astronautScores = new HashMap<>();
+
+        // Sum computed points from events
+        for (MissionEvent e : events) {
+            int currentScore = astronautScores.getOrDefault(e.getAstronautId(), 0);
+            astronautScores.put(e.getAstronautId(), currentScore + calculateComputedPoints(e));
+        }
+
+        // Add values from fines
+        for (Supply g : supplies) {
+            int currentScore = astronautScores.getOrDefault(g.getAstronautId(), 0);
+            astronautScores.put(g.getAstronautId(),currentScore + g.getValue());
+        }
+
+        // Sort descending by score, ascending by name
+        return astronauts.stream()
+                .collect(Collectors.toMap(t -> t, t -> astronautScores.getOrDefault(t.getId(), 0)))
+                .entrySet().stream()
+                .sorted((e1, e2) -> {
+                    int scoreCompare = e2.getValue().compareTo(e1.getValue());
+                    if (scoreCompare == 0) {
+                        return e1.getKey().getName().compareTo(e2.getKey().getName());
+                    }
+                    return scoreCompare;
+                })
+                .limit(5)
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new // Păstrăm ordinea sortării
+                ));
+    }
 
 
 
