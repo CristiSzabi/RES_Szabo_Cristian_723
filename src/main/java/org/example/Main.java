@@ -41,6 +41,7 @@ public class Main {
             System.out.println("\n=== MENIU ===");
             System.out.println("1. Afisare date initiale (Task 1)");
             System.out.println("2. Filtrare astronauti dupa spacecraft active (Task 2)");
+            System.out.println("3. Sortare astronauti dupa experienta si nume (Task 3)");
             System.out.println("0. Iesire");
             System.out.print("Alege o optiune: ");
 
@@ -73,6 +74,10 @@ public class Main {
                     } catch (NumberFormatException e) {
                         System.out.println("Alegere invalida");
                     }
+                    break;
+                case 3:
+                    System.out.println("\n--- Sorted Astronauts ---");
+                    service.getSortedAstronauts().forEach(System.out::println);
                     break;
 
 
