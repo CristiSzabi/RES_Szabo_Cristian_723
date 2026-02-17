@@ -1,17 +1,71 @@
 package org.example;
 
+import org.example.Model.Astronaut;
+import org.example.Model.MissionEvent;
+import org.example.Model.Supply;
+import org.example.Repository.FileRepository;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    static void main() {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        IO.println(String.format("Hello and welcome!"));
+    public static void main(String[] args) {
+        FileRepository repo = new FileRepository();
+        Scanner scanner = new Scanner(System.in);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            IO.println("i = " + i);
+        List<Astronaut> astronauts = null;
+        List<MissionEvent> events = null;
+        List<Supply> supplies = null;
+
+
+
+        try {
+            astronauts = repo.loadAstronauts("astronauts.json");
+            events = repo.loadEvents("events.json");
+            supplies = repo.loadSupplies("supplies.json");
+        } catch (IOException e) {
+            System.err.println("Eroare la citire: " + e.getMessage());
+            return;
         }
+
+        boolean running = true;
+
+        while (running) {
+            System.out.println("\n=== MENIU ===");
+            System.out.println("1. Afisare date initiale (Task 1)");
+            System.out.println("0. Iesire");
+            System.out.print("Alege o optiune: ");
+
+
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid choice.");
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\nDrivers loaded: " + astronauts.size());
+                    System.out.println("Events loaded: " + events.size());
+                    System.out.println("Penalties loaded: " + supplies.size());
+                    astronauts.forEach(System.out::println);
+                    break;
+
+                case 0:
+                    System.out.println("\nIesire.");
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("\nOptiune invalida!");
+            }
+        }
+        scanner.close();
     }
 }
