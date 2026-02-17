@@ -28,5 +28,12 @@ public class FileRepository {
         return mapper.readValue(new File(path), new TypeReference<List<Supply>>() {
         });
     }
+    public void writeAstronautsToFile(List<Astronaut> astronauts, String filePath) throws IOException {
+        try (FileWriter writer = new FileWriter(filePath)) {
+            for (Astronaut t : astronauts) {
+                writer.write(t.toString() + System.lineSeparator());
+            }
+        }
+    }
 
 }

@@ -42,6 +42,7 @@ public class Main {
             System.out.println("1. Afisare date initiale (Task 1)");
             System.out.println("2. Filtrare astronauti dupa spacecraft active (Task 2)");
             System.out.println("3. Sortare astronauti dupa experienta si nume (Task 3)");
+            System.out.println("4. Scriere astronauti sortati in fisier");
             System.out.println("0. Iesire");
             System.out.print("Alege o optiune: ");
 
@@ -79,6 +80,16 @@ public class Main {
                     System.out.println("\n--- Sorted Astronauts ---");
                     service.getSortedAstronauts().forEach(System.out::println);
                     break;
+                case 4:
+                    try {
+                        repo.writeAstronautsToFile(service.getSortedAstronauts(), "astronauts_sorted.txt");
+                        System.out.println("\nFisierul a fost generat!");
+                    } catch (IOException e) {
+                        System.err.println("\nNu s-a putut scrie fisierul: " + e.getMessage());
+                    }
+
+                    break;
+
 
 
 

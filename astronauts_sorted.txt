@@ -1,0 +1,15 @@
+[1]Ava Ionescu | Orion | ACTIVE | exp=9
+[9]Ioana Rusu | Dragon | LOST | exp=9
+[11]Bianca Tudor | Orion | ACTIVE | exp=8
+[7]Clara Neagu | Starliner | INACTIVE | exp=8
+[2]Mihai Petrescu | Dragon | ACTIVE | exp=8
+[10]Daniel Voicu | Starliner | ACTIVE | exp=7
+[3]Elena Pop | Orion | INACTIVE | exp=7
+[5]Sofia Marin | Dragon | ACTIVE | exp=7
+[14]Teodor Matei | Orion | ACTIVE | exp=7
+[12]Horia Pascu | Dragon | INACTIVE | exp=6
+[15]Larisa Dobre | Dragon | ACTIVE | exp=6
+[4]Radu Stan | Starliner | ACTIVE | exp=6
+[8]Victor Iliescu | Orion | ACTIVE | exp=6
+[6]Andrei Dumitru | Orion | ACTIVE | exp=5
+[13]Nadia Ene | Starliner | ACTIVE | exp=5
